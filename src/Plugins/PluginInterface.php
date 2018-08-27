@@ -3,9 +3,9 @@
 namespace MYFin\Plugins;
 
 
-use MYFin\ServiceContainerInteface;
+use MYFin\ServiceContainerInterface;
 
 interface PluginInterface
 {
-    public function register(ServiceContainerInteface $container);
+    public function register(ServiceContainerInterface $container);
 }

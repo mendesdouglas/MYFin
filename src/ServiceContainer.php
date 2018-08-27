@@ -3,10 +3,10 @@
 namespace  MYFin;
 
 use Xtreamwayz\Pimple\Container;
-use MYFin\ServiceContainerInteface;
+use MYFin\ServiceContainerInterface;
 
 
-class ServiceContainer implements ServiceContainerInteface
+class ServiceContainer implements ServiceContainerInterface
 {
     private $container;
     /**

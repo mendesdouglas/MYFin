@@ -4,7 +4,7 @@ namespace MYFin;
 
 
 
-interface ServiceContainerInteface
+interface ServiceContainerInterface
 {
     public function add(string $name, $service);
 

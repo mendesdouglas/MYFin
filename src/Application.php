@@ -2,16 +2,20 @@
 declare(strict_types=1);
 namespace MYFin;
 
-use Cake\Core\PluginInterface;
+use MYFin\Plugins\PluginInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Zend\Diactoros\Response\SapiEmitter;
 
 
 class Application
 {
     private $serviceContainer;
 
-    public function __construct(ServiceContainerInteface $serviceContainer)
+    public function __construct(ServiceContainerInterface $serviceContainer)
     {
-        $this->_serviceContainer = $serviceContainer;
+        $this->serviceContainer = $serviceContainer;
     }
 
 
@@ -41,7 +45,22 @@ class Application
         }
         public function start(){
             $route = $this->service('route');
+            /** */
+            $request = $this->service(RequestInterface::class);
+            if(!$route){
+                echo "404 - Page not found";
+                exit;
+            }
+            foreach ($route->attributes as $key => $value ){
+                $request = $request->withAttribute($key, $value);
+            }
             $callable =  $route->handler;
-            $callable();
+            $response = $callable($request);
+            $this->emitResponse($response);
+        }
+        protected function emitResponse(ResponseInterface $response){
+            $emitter = new SapiEmitter();
+            $emitter->emit($response);
+
         }
     }
